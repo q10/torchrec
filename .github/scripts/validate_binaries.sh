@@ -60,13 +60,11 @@ export CONDA_PREFIX=$(conda run -n "${CONDA_ENV}" printenv CONDA_PREFIX)
 
 find / -name *cuda*
 
-if [[ $CUDA_VERSION = cu* ]]; then
-    # Setting LD_LIBRARY_PATH fixes the runtime error with fbgemm_gpu not
-    # being able to locate libnvrtc.so
-    echo "[NOVA] Setting LD_LIBRARY_PATH ..."
-    conda env config vars set -n ${CONDA_ENV}  \
-        LD_LIBRARY_PATH="/usr/local/lib:/usr/lib64:${CONDA_PREFIX}/lib:${LD_LIBRARY_PATH}"
-fi
+# Setting LD_LIBRARY_PATH fixes the runtime error with fbgemm_gpu not
+# being able to locate libnvrtc.so
+echo "[NOVA] Setting LD_LIBRARY_PATH ..."
+conda env config vars set -n ${CONDA_ENV}  \
+    LD_LIBRARY_PATH="/usr/local/lib:/usr/lib64:${CONDA_PREFIX}/lib:${LD_LIBRARY_PATH}"
 
 
 # install pytorch
